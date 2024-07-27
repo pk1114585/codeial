@@ -1,4 +1,5 @@
  const express= require('express');
+ const cookieParser= require('cookie-parser');
  const port = 8000;
  const app =express(); 
  const db= require('./config/mongoose');
@@ -6,6 +7,8 @@
  const expresLayout= require('express-ejs-layouts');
  app.use(expresLayout);
  app.use(express.static('./assets'));
+ app.use(express.urlencoded());
+ app.use(cookieParser());
  app.set('layout extractStyles', true);
  app.set("layout extractScripts", true)
 // use router
