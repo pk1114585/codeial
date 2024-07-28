@@ -7,12 +7,18 @@ module.exports.profile = function (req, res) {
 }
 
 module.exports.signUp = function (req, res) {
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_up', {
         title: 'Codeal | sign Up'
     });
 }
 
 module.exports.signIn = function (req, res) {
+    if(req.isAuthenticated()){
+        return res.redirect('/users/profile');
+    }
     return res.render('user_sign_in', {
         title: 'Codeal | sign in'
     });
@@ -42,12 +48,23 @@ module.exports.create = async function (req, res) {
 };
 
 module.exports.createSession = function (req, res) {
-    console.log(req.body);
+   /*  console.log(req.body);
     const email= User.findOne({email: req.body.email});
     const pass= User.findOne({password: req.body.password});
     console.log(email+''+ pass);
     if(email == req.body.email && pass == req.body.password){
         console.log('login successfully');
         return res.render('user_profile');
-    }
+    } */
+   // using passport for sign in
+   return res.redirect('/');
  } 
+
+ module.exports.destroySession= function(req, res){
+    req.logout(function(err){
+        if(err){
+            console.log('something geeting err while signout');
+        }
+    });
+    return res.redirect('/');
+ }
