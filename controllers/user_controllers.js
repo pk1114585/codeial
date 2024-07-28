@@ -50,4 +50,4 @@ module.exports.createSession = function (req, res) {
         console.log('login successfully');
         return res.render('user_profile');
     }
- }
+ } 
