@@ -1,17 +1,38 @@
+<link rel="stylesheet" href="/css/home.css">
 <!-- <html>
     <head>
         <title><%= title %></title>
     </head>
     <body>
         <%- include('_header'); %> -->
-        <h1>First home of <%= title %></h1>
-       <!--  <%- include('_footer'); %>
+<h1>First home of <%= title %>
+</h1>
+<!--  <%- include('_footer'); %>
     </body>
 </html> -->
 
 <section id="feed-posts">
-<form action="" id="new-post-form" method="post">
-   <textarea name="content" cols="30" rows="3"></textarea>
-   <input type="submit" value="Post">
-</form>
+    <h3>Posts</h3>
+    <form action="/post/create" id="new-post-form" method="post">
+        <textarea name="content" cols="30" rows="3" placeholder="Type Here..."></textarea>
+        <input type="submit" value="Post">
+    </form>
 </section>
+
+<div id="post-list-container">
+    <h4>All Published post</h4>
+    <ul>
+        <% for(post of posts){%>
+        <li>
+            <p>
+                <%= post.content %>
+                    <br>
+                    <small>
+                        <%= post.user.name %>
+                    </small>
+            <%}%>
+        </p>
+        </li>
+
+    </ul>
+</div>
