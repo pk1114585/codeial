@@ -11,9 +11,14 @@ module.exports.home = async function(req, res) {
         return res.status(500).send("Internal Server Error");
     } */
 
-   // Populate the whole user object
+   // Populate the whole user object and comment
     try{
-      let posts = await Post.find({}).populate('user').exec({});
+      let posts = await Post.find({}).populate('user').populate({
+        path: 'comments',
+        populate: {
+            path: 'user'
+        }
+      }).exec({});
       return res.render('home', {
         title: "Codial",
         posts: posts
