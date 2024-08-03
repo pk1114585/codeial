@@ -1,10 +1,19 @@
 const User = require('../models/user');
-module.exports.profile = function (req, res) {
-    return res.render('users', {
-        title: 'Profile',
-        name: 'Pradeep'
-    });
-}
+// let's keep it same as before
+module.exports.profile = async function(req, res) {
+    try {
+        let user = await User.findById(req.params.id);
+        return res.render('user_profile', {
+            title: 'User Profile',
+            profile_user: user
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send("Internal Server Error");
+    }
+};
+
+
 
 module.exports.signUp = function (req, res) {
     if(req.isAuthenticated()){
@@ -13,6 +22,27 @@ module.exports.signUp = function (req, res) {
     return res.render('user_sign_up', {
         title: 'Codeal | sign Up'
     });
+}
+
+module.exports.update = async function (req, res) {
+
+    console.log('user_controller line 29',req.body);
+    try {
+    if(req.user.id == req.params.id){
+        let userUpdate = await User.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true } // Options to return the updated document and validate the update
+        );
+        return res.redirect('/');
+    }else{
+        res.status('401').send('Unauthorization');
+        console.log('user_controller line 37');
+    }
+   }catch(err){
+    console.log(err);
+   }
+   
 }
 
 module.exports.signIn = function (req, res) {

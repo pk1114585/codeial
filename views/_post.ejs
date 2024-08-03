@@ -1,0 +1,20 @@
+<% for(post of posts){%>
+    <li>
+        <p>
+            <% if(locals.user&& locals.user.id==post.user.id){%>
+                <small>
+                    <a href="/post/destroy/<%= post.id%>">X</a>
+                </small>
+                <%}%>
+                    <%= post.content %>
+                        <br>
+                        <small>
+                            <%= post.user.name %>
+                        </small>
+
+                        <%-include('_comment')-%>
+
+                            <%}%>
+        </p>
+
+    </li>
