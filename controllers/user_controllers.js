@@ -1,4 +1,5 @@
 const User = require('../models/user');
+
 // let's keep it same as before
 module.exports.profile = async function(req, res) {
     try {
@@ -26,7 +27,7 @@ module.exports.signUp = function (req, res) {
 
 module.exports.update = async function (req, res) {
 
-    console.log('user_controller line 29',req.body);
+   
     try {
     if(req.user.id == req.params.id){
         let userUpdate = await User.findByIdAndUpdate(
@@ -34,10 +35,11 @@ module.exports.update = async function (req, res) {
             req.body,
             { new: true, runValidators: true } // Options to return the updated document and validate the update
         );
+        req.flash('success','Profile Updated Successfully');
         return res.redirect('/');
     }else{
         res.status('401').send('Unauthorization');
-        console.log('user_controller line 37');
+        
     }
    }catch(err){
     console.log(err);
@@ -87,6 +89,7 @@ module.exports.createSession = function (req, res) {
         return res.render('user_profile');
     } */
    // using passport for sign in
+   req.flash('success','Logged in successfully');
    return res.redirect('/');
  } 
 
@@ -95,6 +98,8 @@ module.exports.createSession = function (req, res) {
         if(err){
             console.log('something geeting err while signout');
         }
+       
     });
+    req.flash('success','You have logged Out!');
     return res.redirect('/');
  }

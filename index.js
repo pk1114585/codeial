@@ -8,9 +8,11 @@ const { db, mongoClientPromise } = require('./config/mongoose');
 // Used for session cookie
 const session = require('express-session');
 const passport= require('passport');
+const flashmiddleware=require('./config/middleware');
 const passportLocal= require('./config/passport-local-strategy');
 const MongoStore = require('connect-mongo');
 const saasMiddleware=require('node-sass-middleware');
+const flash= require('connect-flash');
 app.use(saasMiddleware({
     src:'./assets/scss',
     dest:'./assets/css',
@@ -68,6 +70,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.setAuthentication);
+
+app.use(flash());
+app.use(flashmiddleware.setFlash);
 
 // use router
 app.use('/', require('./routes/index'));
