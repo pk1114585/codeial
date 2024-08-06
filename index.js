@@ -11,6 +11,7 @@ const passport= require('passport');
 const flashmiddleware=require('./config/middleware');
 const passportLocal= require('./config/passport-local-strategy');
 const passportJWTstrategy=require('./config/passport-jwt-strategy');
+const passportGoogle= require('./config/passport-google-oauth2-strategy');
 const MongoStore = require('connect-mongo');
 const saasMiddleware=require('node-sass-middleware');
 const flash= require('connect-flash');
