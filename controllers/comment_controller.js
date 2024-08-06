@@ -1,6 +1,7 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 const commentMailer=('../mailers/commentMailer');
+const Like=require('../models/like');
 module.exports.create = async function (req, res) {
     try {
         let post = await Post.findById(req.body.post);
@@ -43,6 +44,10 @@ module.exports.destroy = async function(req, res) {
             // Remove the comment
             await Comment.findByIdAndDelete(req.params.id);
 
+            //destroy the associated likes for this comment
+            await Like.deleteMany({likeable:comment._id,onModel:'Comment'});
+
+            
             // Update the post to remove the reference to the deleted comment
             await Post.findByIdAndUpdate(postId, { $pull: { comments: req.params.id } });
 
