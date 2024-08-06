@@ -23,7 +23,7 @@ module.exports.destroy = async function(req, res) {
         let post = await Post.findById(req.params.id);
 
         // Check if the post belongs to the logged-in user
-       
+          if(post.user == req.user.id){
             // Delete the post
             await Post.deleteOne({ _id: req.params.id });
 
@@ -33,11 +33,18 @@ module.exports.destroy = async function(req, res) {
             return res.status('200').json({
                 message: 'Post deleted successfully',
             });
+        }else{
+            return res.status('401').json({
+                message: 'You cannot delete this post',
+            });
+        }
         
-    } catch (err) {
+    } 
+    catch (err) {
         console.log(err);
         return res.status(500).json({
             message:'Internal Server Error'
-    });
+      });
     }
-}
+} 
+     

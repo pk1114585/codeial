@@ -1,14 +1,18 @@
 const Post= require('../models/post');
 const Comment= require('../models/comment');
 module.exports.create = async function(req, res){
+    
     try{
         let post = await Post.create({
             content: req.body.content,
             user: req.user._id
         });
-        console.log(req.body.content);
         
+        console.log("Post_controller: Post created successfully",req.body);
+
+        // Check if the request is an AJAX request
         if (req.xhr){
+            console.log("Post_controller: AJAX request detected");
             return res.status(200).json({
                 data: {
                     post: post
@@ -17,15 +21,15 @@ module.exports.create = async function(req, res){
             });
         }
 
-       
+        console.log("Post_controller: Redirecting back");
         return res.redirect('back');
 
     }catch(err){
-        
-        return res.redirect('back');
+        console.log("Post_controller: Error occurred -", err);
+        return res.status(500).json({message: "Internal Server Error"});
     }
-  
 }
+
 
 module.exports.destroy = async function(req, res) {
     try {
